@@ -1,47 +1,96 @@
 
-# EX 1C Job Sequencing using Greedy Approach
-## DATE:
+# EX 2C Job Sequencing using Greedy Approach
+## DATE: 17-09-26
 ## AIM:
-To write a Java program to for given constraints.
-Given an integer array nums and an integer k, return the number of pairs (i, j) where i < j such that |nums[i] - nums[j]| == k.
+To write a Java program that schedules jobs using the Greedy Approach. Each job has:
 
-The value of |x| is defined as:
+A unique Job ID
+A Deadline
+A Profit (earned only if the job is completed on or before its deadline)
+Each job takes 1 unit of time and only one job can be done at a time. The goal is to complete the maximum number of jobs with the maximum total profit.
 
-x if x >= 0.
--x if x < 0.You're given N jobs, each with:
+## Algorithm:
 
-A unique jobId
+1.Read the number of jobs and input each job’s id, deadline, and profit.
 
-A deadline (by which it must be completed)
+2.Sort the jobs in decreasing order of profit.
 
-A profit (earned only if completed on or before the deadline)
+3.Find the maximum deadline among all jobs.
 
-Each job:
+4.Create a time-slot array to track free and occupied slots.
 
-Takes exactly 1 unit of time
+5.For each job in sorted order, assign it to the latest free slot before or on its deadline.
 
-Only one job can be done at a time
+6.Count how many jobs were done and compute the total profit.
 
-Your goal is to maximize total profit while completing the maximum number of jobs possible within their deadlines.
-
-## Algorithm
-1. 
-2. 
-3. 
-4.  
-5.   
+7.Print the number of jobs completed and the total profit.
 
 ## Program:
 ```
 /*
 Program to implement Reverse a String
-Developed by: 
-Register Number:  
+Developed by: SANJEEV RAJ S
+Register Number: 212223220096
 */
+import java.util.*;
+
+public class JobScheduling {
+
+    static class Job {
+        int id, deadline, profit;
+
+        Job(int id, int deadline, int profit) {
+            this.id = id;
+            this.deadline = deadline;
+            this.profit = profit;
+        }
+    }
+
+    public static int[] jobScheduling(Job[] jobs, int n) {
+        Arrays.sort(jobs, (a, b) -> b.profit - a.profit);
+        int maxDeadline = 0;
+
+        for(Job job : jobs) {
+            maxDeadline = Math.max(maxDeadline, job.deadline);
+        }
+
+        boolean[] slot = new boolean[maxDeadline + 1];
+        int jobsDone = 0, totalProfit = 0;
+
+        for(Job job : jobs) {
+            for(int j = job.deadline; j > 0; j--) {
+                if(!slot[j]) {
+                    slot[j] = true;
+                    jobsDone++;
+                    totalProfit += job.profit;
+                    break;
+                }
+            }
+        }
+        return new int[]{jobsDone, totalProfit};
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Job[] jobs = new Job[n];
+
+        for(int i = 0; i < n; i++) {
+            int id = sc.nextInt();
+            int deadline = sc.nextInt();
+            int profit = sc.nextInt();
+            jobs[i] = new Job(id, deadline, profit);
+        }
+
+        int[] result = jobScheduling(jobs, n);
+        System.out.println(result[0] + " " + result[1]);
+    }
+}
 ```
 
 ## Output:
 
+<img width="1088" height="452" alt="516748585-5144a831-ee44-4454-868b-ea0a42ace496" src="https://github.com/user-attachments/assets/7a5b7a85-fcea-4158-aeeb-dc7201865d8f" />
 
 
 ## Result:
